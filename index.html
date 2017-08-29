@@ -201,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -211,7 +211,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -258,6 +258,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/date-format/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/29/date-format/" itemprop="url">js日期格式转换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-29T21:42:27+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>请实现一个dateFormat方法，实现将时间戳按照固定格式进行转换</p>
+<ul>
+<li>dateFormat(‘1350052653’, ‘YYYY-MM-DD HH:MM:SS’); // 1970-01-16 23:00:52</li>
+<li>dateFormat(‘1350052653’, ‘YYYY-MM-DD’); // 1970-01-16</li>
+</ul>
+<p>格式化参数不传时默认为’YYYY-MM-DD HH:MM:SS’，年月日的分隔符必须为’-‘，时分秒的分隔符必须为’:’，该参数支持任意组合，例如：’YYYY-MM HH:MM’、’YYYY-MM’等，但不会出现’YYYY-DD’或’HH:SS’此类情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">// 1.默认情况 格式&apos;YYYY-MM-DD HH:MM:SS&apos;</div><div class="line">function dateFormat (time, format) &#123;</div><div class="line">  // 2.默认格式转换机制</div><div class="line">  var formatValue = format || &apos;YYYY-MM-DD HH:MM:SS&apos; // 默认值设置</div><div class="line">  var dateValue = new Date(time);</div><div class="line">  return formatObj[formatValue](dateValue)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 3.将格式统一转换成00</div><div class="line">function fixed2 (str) &#123;</div><div class="line">  return str &lt; 10 ? &apos;0&apos; + str : str</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 4.考虑所有格式情况的组合 根据题目要求只有四种组合情况</div><div class="line">var formatObj = &#123;</div><div class="line">  &apos;YYYY-MM-DD HH:MM:SS&apos;: function (date) &#123;</div><div class="line">    var Y, M, D, h, m, s, last;</div><div class="line">    Y = date.getFullYear() + &apos;-&apos;;</div><div class="line">    M = fixed2(date.getMonth() + 1) + &apos;-&apos;;</div><div class="line">    D = fixed2(date.getDate()) + &apos; &apos;;</div><div class="line">    h = fixed2(date.getHours()) + &apos;:&apos;;</div><div class="line">    m = fixed2(date.getMinutes()) + &apos;:&apos;;</div><div class="line">    s = fixed2(date.getSeconds());</div><div class="line">    last = Y + M + D + h + m + s;</div><div class="line">    return last;</div><div class="line">  &#125;,</div><div class="line">  &apos;YYYY-MM-DD HH:MM&apos;: function (date) &#123;</div><div class="line">    var Y, M, D, h, m, last;</div><div class="line">    Y = date.getFullYear() + &apos;-&apos;;</div><div class="line">    M = fixed2(date.getMonth() + 1) + &apos;-&apos;;</div><div class="line">    D = fixed2(date.getDate()) + &apos; &apos;;</div><div class="line">    h = fixed2(date.getHours()) + &apos;:&apos;;</div><div class="line">    m = fixed2(date.getMinutes());</div><div class="line">    last = Y + M + D + h + m;</div><div class="line">    return last;</div><div class="line">  &#125;,</div><div class="line">  &apos;YYYY-MM HH:MM:SS&apos;: function (date) &#123;</div><div class="line">    var Y, M, h, m, s, last;</div><div class="line">    Y = date.getFullYear() + &apos;-&apos;;</div><div class="line">    M = fixed2(date.getMonth() + 1) + &apos; &apos;;</div><div class="line">    h = fixed2(date.getHours()) + &apos;:&apos;;</div><div class="line">    m = fixed2(date.getMinutes()) + &apos;:&apos;;</div><div class="line">    s = fixed2(date.getSeconds());</div><div class="line">    last = Y + M + h + m + s;</div><div class="line">    return last;</div><div class="line">  &#125;,</div><div class="line">  &apos;YYYY-MM HH:MM&apos;: function (date) &#123;</div><div class="line">    var Y, M, D, h, m, s, last;</div><div class="line">    Y = date.getFullYear() + &apos;-&apos;;</div><div class="line">    M = fixed2(date.getMonth() + 1) + &apos; &apos;;</div><div class="line">    h = fixed2(date.getHours()) + &apos;:&apos;;</div><div class="line">    m = fixed2(date.getMinutes());</div><div class="line">    last = Y + M + h + m;</div><div class="line">    return last;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">dateFormat(1350052653, &apos;YYYY-MM-DD HH:MM&apos;) // 1970-01-16 23:00:52</div><div class="line">dateFormat(1350052653, &apos;YYYY-MM-DD HH:MM&apos;) // 1970-01-16 23:00</div><div class="line">dateFormat(1350052653, &apos;YYYY-MM HH:MM:SS&apos;) // 1970-01 23:00:52</div><div class="line">dateFormat(1350052653, &apos;YYYY-MM HH:MM&apos;) // 1970-01 23:00</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -287,7 +413,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-29T18:57:29+08:00">
                 2017-08-29
@@ -419,8 +545,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -474,7 +600,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
