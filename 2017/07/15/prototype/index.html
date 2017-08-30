@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="原型的5个规则- 所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（除了“null”意外） - 所有的引用类型（数组、对象、函数）都有一个\__proto__（隐式原型）属性，属性值是一个普通的对象 - 所有的函数都有一个prototype（显示原型）属性，属性值也是一个普通的对象 - 所有的引用类型（数组、对象、函数），\__proto__属性值指向它的构造函数的&amp;quot;p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="原型和原型链">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/prototype/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原型的5个规则- 所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（除了“null”意外） - 所有的引用类型（数组、对象、函数）都有一个\__proto__（隐式原型）属性，属性值是一个普通的对象 - 所有的函数都有一个prototype（显示原型）属性，属性值也是一个普通的对象 - 所有的引用类型（数组、对象、函数），\__proto__属性值指向它的构造函数的&amp;quot;p">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/848dd3a78b3d3b9442ba25bc3628d001/xmlnote/82AF48D53A704399A345D4218268B002/10825">
+<meta property="og:updated_time" content="2017-08-30T14:11:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="原型和原型链">
+<meta name="twitter:description" content="原型的5个规则- 所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（除了“null”意外） - 所有的引用类型（数组、对象、函数）都有一个\__proto__（隐式原型）属性，属性值是一个普通的对象 - 所有的函数都有一个prototype（显示原型）属性，属性值也是一个普通的对象 - 所有的引用类型（数组、对象、函数），\__proto__属性值指向它的构造函数的&amp;quot;p">
+<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/848dd3a78b3d3b9442ba25bc3628d001/xmlnote/82AF48D53A704399A345D4218268B002/10825">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/15/prototype/"/>
+
+
+
+
+
+  <title>原型和原型链 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/15/prototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">原型和原型链</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-15T23:16:43+08:00">
+                2017-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="原型的5个规则"><a href="#原型的5个规则" class="headerlink" title="原型的5个规则"></a>原型的5个规则</h3><pre><code>- 所有的引用类型（数组、对象、函数）都具有对象特性，即可自由扩展属性（除了“null”意外）
+- 所有的引用类型（数组、对象、函数）都有一个\__proto__（隐式原型）属性，属性值是一个普通的对象
+- 所有的函数都有一个prototype（显示原型）属性，属性值也是一个普通的对象
+- 所有的引用类型（数组、对象、函数），\__proto__属性值指向它的构造函数的&quot;prototype&quot;属性值
+- 当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去他的\__proto__（即它的构造函数的prototype）中寻找
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 5个规则</div><div class="line">var obj = &#123;&#125;;</div><div class="line">obj.a = 100; // 第一条规则</div><div class="line">function fn () &#123;&#125;</div><div class="line">fn.a = 100;</div><div class="line">console.log(obj.__proto__); // 第二条规则</div><div class="line">console.log(fn.__proto__); // ƒ () &#123; [native code] &#125; 第三条规则</div><div class="line">console.log(fn.prototype); // &#123;constructor: f&#125;</div><div class="line">console.log(fn.__proto__ === Function.prototype); // true 第四条规则</div><div class="line">console.log(obj.__proto__ === Object.prototype); // true</div></pre></td></tr></table></figure>
+<p>补充两点：</p>
+<pre><code>- this永远指向实例本身
+- 循环对象自身的属性
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"> // 构造函数</div><div class="line">function Foo (name, age) &#123;</div><div class="line">    this.name = name;</div><div class="line">&#125;</div><div class="line">Foo.prototype.alertName = function () &#123;</div><div class="line">    alert(this.name);</div><div class="line">&#125;;</div><div class="line">// 创建示例</div><div class="line">var f = new Foo(&apos;zhangsan&apos;);</div><div class="line">f.printName = function () &#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;;</div><div class="line">// 测试</div><div class="line">f.printName();</div><div class="line">f.alertName();</div><div class="line">f.toString(); // 要去f.__proto__.proto__中查找 第五条规则</div><div class="line"></div><div class="line">// 循环对象自身的属性</div><div class="line">var item;</div><div class="line">for (item in f) &#123;</div><div class="line">    // 高级浏览器已经在 for in 中屏蔽了来自原型的属性</div><div class="line">    // 但是这里建议大家还是加上这个判断,保证程序的健壮性能</div><div class="line">    if (f.hasOwnProperty(item)) &#123; // 判断某个属性是否是实例的属性hasOwnProperty()</div><div class="line">        console.log(item);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><h4 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h4><p>用于判断引用类型属于哪个构造函数的方法</p>
+<ul>
+<li>f instanceof Foo 的判断逻辑是：</li>
+<li>f的<strong>proto</strong>一层一层往上，能否对应到Foo.prototype</li>
+<li>再试着判断f instanceof Object</li>
+</ul>
+<h4 id="原型链查找属性"><a href="#原型链查找属性" class="headerlink" title="原型链查找属性"></a>原型链查找属性</h4><p><img src="http://note.youdao.com/yws/public/resource/848dd3a78b3d3b9442ba25bc3628d001/xmlnote/82AF48D53A704399A345D4218268B002/10825" alt="image"></p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><h4 id="一、写一个原型链继承的例子"><a href="#一、写一个原型链继承的例子" class="headerlink" title="一、写一个原型链继承的例子"></a>一、写一个原型链继承的例子</h4><p>简单封装DOM操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">function Elem (id) &#123;</div><div class="line">    this.elem = document.getElementById(id);</div><div class="line">&#125;</div><div class="line"></div><div class="line">Elem.prototype.html = function (val) &#123;</div><div class="line">    var elem = this.elem;</div><div class="line">    if (val) &#123; // 设置值</div><div class="line">        elem.innerHTML = val;</div><div class="line">        return this; // 返回this用于链式操作</div><div class="line">    &#125; else &#123; // 获取值</div><div class="line">        return elem.innerHTML;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Elem.prototype.on = function (type, fn) &#123;</div><div class="line">    var elem = this.elem;</div><div class="line">    elem.addEventListener(type, fn);</div><div class="line">    return this;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var div1 = new Elem(&apos;div1&apos;);</div><div class="line">console.log(div1.html());</div><div class="line">div1.on(&apos;click&apos;, function () &#123;</div><div class="line">    alert(&apos;clicked&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="二、zepto（或其他框架）源码中如何使用原型链"><a href="#二、zepto（或其他框架）源码中如何使用原型链" class="headerlink" title="二、zepto（或其他框架）源码中如何使用原型链"></a>二、zepto（或其他框架）源码中如何使用原型链</h4><p><a href="http://www.imooc.com/learn/745" target="_blank" rel="external">http://www.imooc.com/learn/745</a> zepto源码学习</p>
+<h4 id="三、描述new一个对象的过程"><a href="#三、描述new一个对象的过程" class="headerlink" title="三、描述new一个对象的过程"></a>三、描述new一个对象的过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 创建一个新对象(this空对象) // 创建对象</div><div class="line">// 将构造函数的作用域赋给了this对象(因此this就指向了这个新对象) 赋值this</div><div class="line">// 执行构造函数中的代码(为这个新对象添加属性) 赋值属性</div><div class="line">// 返回新对象(默认反返回了) // 返回新对象</div><div class="line">function Person (name, age) &#123;</div><div class="line">    this.name = name;</div><div class="line">    this.age = age;</div><div class="line">&#125;</div><div class="line">var person1 = new Person(&apos;liuhui&apos;, &apos;24&apos;);</div></pre></td></tr></table></figure>
+<h3 id="综合考察的一个题目"><a href="#综合考察的一个题目" class="headerlink" title="综合考察的一个题目"></a>综合考察的一个题目</h3><p><a href="https://github.com/Wscats/Good-text-Share/issues/85" target="_blank" rel="external">https://github.com/Wscats/Good-text-Share/issues/85</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/29/date-format/" rel="next" title="js日期格式转换">
+                <i class="fa fa-chevron-left"></i> js日期格式转换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/17/this-and-Closure/" rel="prev" title="作用域和闭包">
+                作用域和闭包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型的5个规则"><span class="nav-number">1.</span> <span class="nav-text">原型的5个规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型链"><span class="nav-number">2.</span> <span class="nav-text">原型链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#instanceof"><span class="nav-number">2.1.</span> <span class="nav-text">instanceof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链查找属性"><span class="nav-number">2.2.</span> <span class="nav-text">原型链查找属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">3.</span> <span class="nav-text">思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、写一个原型链继承的例子"><span class="nav-number">3.1.</span> <span class="nav-text">一、写一个原型链继承的例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、zepto（或其他框架）源码中如何使用原型链"><span class="nav-number">3.2.</span> <span class="nav-text">二、zepto（或其他框架）源码中如何使用原型链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、描述new一个对象的过程"><span class="nav-number">3.3.</span> <span class="nav-text">三、描述new一个对象的过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#综合考察的一个题目"><span class="nav-number">4.</span> <span class="nav-text">综合考察的一个题目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

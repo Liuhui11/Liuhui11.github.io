@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="手动编写一个ajax,不依赖第三方库 理解每一步ajax请求一个完整的ajax请求一般包括以下步骤：  实例化XMLHttpRequest对象 连接服务器 发送请求 接收响应数据  http相关状态码  200 ok 访问正常 301 Moved Permanently 永久移动 302 Move Temporarity 暂时移动 304 Not Modified 未修改 307 Temporar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ajax">
+<meta property="og:url" content="http://yoursite.com/2017/08/15/js-ajax/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="手动编写一个ajax,不依赖第三方库 理解每一步ajax请求一个完整的ajax请求一般包括以下步骤：  实例化XMLHttpRequest对象 连接服务器 发送请求 接收响应数据  http相关状态码  200 ok 访问正常 301 Moved Permanently 永久移动 302 Move Temporarity 暂时移动 304 Not Modified 未修改 307 Temporar">
+<meta property="og:updated_time" content="2017-08-30T14:14:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ajax">
+<meta name="twitter:description" content="手动编写一个ajax,不依赖第三方库 理解每一步ajax请求一个完整的ajax请求一般包括以下步骤：  实例化XMLHttpRequest对象 连接服务器 发送请求 接收响应数据  http相关状态码  200 ok 访问正常 301 Moved Permanently 永久移动 302 Move Temporarity 暂时移动 304 Not Modified 未修改 307 Temporar">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/15/js-ajax/"/>
+
+
+
+
+
+  <title>Ajax | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/js-ajax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ajax</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-15T23:51:52+08:00">
+                2017-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="手动编写一个ajax-不依赖第三方库-理解每一步"><a href="#手动编写一个ajax-不依赖第三方库-理解每一步" class="headerlink" title="手动编写一个ajax,不依赖第三方库 理解每一步"></a>手动编写一个ajax,不依赖第三方库 理解每一步</h3><h4 id="ajax请求"><a href="#ajax请求" class="headerlink" title="ajax请求"></a>ajax请求</h4><p>一个完整的ajax请求一般包括以下步骤：</p>
+<ul>
+<li>实例化XMLHttpRequest对象</li>
+<li>连接服务器</li>
+<li>发送请求</li>
+<li>接收响应数据</li>
+</ul>
+<p>http相关状态码</p>
+<ul>
+<li>200 ok 访问正常</li>
+<li>301 Moved Permanently 永久移动</li>
+<li>302 Move Temporarity 暂时移动</li>
+<li>304 Not Modified 未修改</li>
+<li>307 Temporary Redirect 暂时重定向</li>
+<li>401 Unauthorized 未授权</li>
+<li>403 Forbidden 禁止访问</li>
+<li>404 Not Found 未发现指定网址</li>
+<li>500 Internal Server Error 服务期发生错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">function ajax (params) &#123;</div><div class="line">    params = params || &#123;&#125;;</div><div class="line">    // 1.实例化XMLHttpRequest对象</div><div class="line">    var xhr = new XMLHttpRequest();</div><div class="line">    // 2.连接服务器open()&amp;3.发送请求send()</div><div class="line">    if (params.type == &apos;GET&apos;) &#123;</div><div class="line">        xhr.open(params.type, params.url + &apos;?&apos; + params.data, true);</div><div class="line">        xhr.send(null);</div><div class="line">    &#125; else &#123;</div><div class="line">        xhr.open(params.type, params.url, true);</div><div class="line">        xhr.setRequestHeader(&apos;Content-Type&apos;, &apos;application/x-www-form-urlencoded; charset=UTF-8&apos;);</div><div class="line">        xhr.send(params.data);</div><div class="line">    &#125;</div><div class="line">    // 4.接收响应数据</div><div class="line">    xhr.onreadystatechange = function () &#123;</div><div class="line">        var response = &apos;&apos;;</div><div class="line">        if (xhr.readyState == 4) &#123;</div><div class="line">            response = xhr.responseText;</div><div class="line">            // 5.根据响应结果执行不同的操作</div><div class="line">            if (xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300 || xhr.status == 304) &#123;</div><div class="line">                //5-1响应成功</div><div class="line">                params.success &amp;&amp; params.success(response);</div><div class="line">            &#125; else &#123;</div><div class="line">//                    alert(xhr.status);</div><div class="line">                //5-2响应失败</div><div class="line">                params.error &amp;&amp; params.error(xhr.status);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    // 给url添加参数.因为查询字符串每个参数的名称和值都必须</div><div class="line">    // 使用encodeURIComponent()进行编码才能放到URL的末尾</div><div class="line">    // 而且所有名-值对都必须有&amp;分隔</div><div class="line">    // xhr.open(&quot;get&quot;, &quot;example.php?name1=value1&amp;name2=value2&quot;, true);</div><div class="line">    function addURLParams (url, name, value) &#123;</div><div class="line">        url += (url.indexOf(&quot;?&quot;) == -1 ? &quot;?&quot; : &quot;&amp;&quot;);</div><div class="line">        url += encodeURIComponent(name) + &quot;=&quot; + encodeURIComponent(value);</div><div class="line">        return url;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">// 调用</div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;https://www.youtube.com/watch?v=Ucbp-Ej5RpI&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;1&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, Math.random(), &apos;1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;test.json&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;2&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, Math.random(), &apos;2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="解决跨域"><a href="#解决跨域" class="headerlink" title="解决跨域"></a>解决跨域</h3><h4 id="跨域的几种实现方式（ajax不能跨域）"><a href="#跨域的几种实现方式（ajax不能跨域）" class="headerlink" title="跨域的几种实现方式（ajax不能跨域）"></a>跨域的几种实现方式（ajax不能跨域）</h4><ol>
+<li>通过跨域标签</li>
+</ol>
+<ul>
+<li>script标签</li>
+<li>link标签</li>
+<li>img标签 图片防盗链，知乎做了</li>
+</ul>
+<ol>
+<li>服务器端设置http header</li>
+</ol>
+<ul>
+<li>另一个解决跨域的简洁方法,需要服务器端来做</li>
+<li>但是作为交互房,我们必须知道这个方法</li>
+<li>是将来解决跨域问题的一个趋势<h4 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域?"></a>什么是跨域?</h4>浏览器有同源策略,不允许ajax访问其他域的接口 接口的安全性(人家的接口怎么能让你随便访问的)<h4 id="跨域条件"><a href="#跨域条件" class="headerlink" title="跨域条件"></a>跨域条件</h4>协议 域名 端口 有一个不同就算跨域</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://www.yeeduo.com/index.html </div><div class="line">http://www.xitalk.com/index.html // 域名不同</div><div class="line">http://www.yeeduo.com:8888/index.html // 端口不同</div><div class="line">https://www.yeeduo.com/index.html // 协议不同</div></pre></td></tr></table></figure>
+<h4 id="jsonp实现原理"><a href="#jsonp实现原理" class="headerlink" title="jsonp实现原理"></a>jsonp实现原理</h4><p><strong>请求时服务器可以返回动态的内容 然后拼接成js文件通过script标签引入</strong></p>
+<h5 id="请求过程"><a href="#请求过程" class="headerlink" title="请求过程:"></a>请求过程:</h5><ul>
+<li>请求阶段: 浏览器创建一个script标签,并给其src赋值(类似<a href="http://example.com/api/?callback=jsonpCallback" target="_blank" rel="external">http://example.com/api/?callback=jsonpCallback</a>)</li>
+<li>发送请求: 当给script的s4c赋值时,浏览器会发起一个请求</li>
+<li>数据响应: 服务器将要返回的数据作为参数和函数名称拼接在一起(格式类似”jsonpCallback({name: ‘abc’})”)返回.</li>
+<li>当浏览器接受到了响应数据,由于发起请求的是script,所以相当于直接调用jsonpCallback方法,并且传入了一个参数 why?</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">// 6.解决跨域的问题 浏览器同源策略</div><div class="line">function jsonp (params) &#123;</div><div class="line">    // a.将请求插入动态创建生成的script标签</div><div class="line">    var script = document.createElement(&apos;script&apos;);</div><div class="line">    var head = document.getElementsByTagName(&apos;head&apos;)[0];</div><div class="line">    head.appendChild(script);</div><div class="line">    // 设置传递给后台的回调参数名</div><div class="line">    var callbackName = params.jsonp;</div><div class="line">    params.data[&apos;callback&apos;] = callbackName; // ?callback=jsonpCallback</div><div class="line"></div><div class="line">    // b.创建回调</div><div class="line">    window[callbackName] = function (json) &#123;</div><div class="line">        head.removeChild(script);</div><div class="line">        clearTimeout(script.timer);</div><div class="line">        window[callbackName] = null;</div><div class="line">        params.success &amp;&amp; params.success(json);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    // c.发送请求</div><div class="line">    script.src = params.url + &apos;?&apos; + data;</div><div class="line"></div><div class="line">    // d.设置超时处理,为了得知此次请求是否成功</div><div class="line">    if (params.time) &#123;</div><div class="line">        script.timer = setTimeout(function () &#123;</div><div class="line">            window[callbackName] = null;</div><div class="line">            head.removeChild(script);</div><div class="line">            params.error &amp;&amp; params.error(&#123;</div><div class="line">                message: &apos;超时&apos;</div><div class="line">            &#125;);</div><div class="line">        &#125;, params.time);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 格式化参数</div><div class="line">function formatParams (data) &#123;</div><div class="line">    var arr = [];</div><div class="line">    for (var name in data) &#123;</div><div class="line">       arr.push(encodeURIComponent(name) + &apos;=&apos; + encodeURIComponent(data[name]));</div><div class="line">    &#125;</div><div class="line">    // 添加一个随机数,防止缓存</div><div class="line">    arr.push(&apos;v=&apos; + random());</div><div class="line">    return arr.join(&apos;&amp;&apos;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 获取随机数</div><div class="line">function random () &#123;</div><div class="line">    return Math.floor(Math.random() * 10000 + 500);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 调用</div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;test.json&apos;,</div><div class="line">    jsonp: &apos;jsonCallback&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;2&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, &apos;2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>参考文章：<a href="https://juejin.im/entry/589921640ce46300560ef894原生js实现ajax、jsonp" target="_blank" rel="external">https://juejin.im/entry/589921640ce46300560ef894原生js实现ajax、jsonp</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div></pre></td><td class="code"><pre><div class="line">function ajax (params) &#123;</div><div class="line">    params = params || &#123;&#125;;</div><div class="line">    params.data = params.data || &#123;&#125;;</div><div class="line">    var json = params.jsonp ? jsonp(params) : json(params);</div><div class="line"></div><div class="line">    function json (params) &#123;</div><div class="line">        // 请求方式,默认是GET</div><div class="line">        params.type = (params.type || &apos;GET&apos;).toUpperCase(); // 转换成大写,请求类型</div><div class="line">        // 避免有特殊字符,必须格式化传输数据</div><div class="line">        params.data = formatParams(params.data); // 数据</div><div class="line">        var xhr = null;</div><div class="line"></div><div class="line">        // 1.实例化XMLHttpRequest对象</div><div class="line">        var xhr = new XMLHttpRequest();</div><div class="line">        // 2.连接服务器open()&amp;3.发送请求send()</div><div class="line">        if (params.type == &apos;GET&apos;) &#123;</div><div class="line">            xhr.open(params.type, params.url + &apos;?&apos; + params.data, true);</div><div class="line">            xhr.send(null);</div><div class="line">        &#125; else &#123;</div><div class="line">            xhr.open(params.type, params.url, true);</div><div class="line">            xhr.setRequestHeader(&apos;Content-Type&apos;, &apos;application/x-www-form-urlencoded; charset=UTF-8&apos;);</div><div class="line">            xhr.send(params.data);</div><div class="line">        &#125;</div><div class="line">        // 4.接收响应数据</div><div class="line">        xhr.onreadystatechange = function () &#123;</div><div class="line">            if (xhr.readyState == 4) &#123;</div><div class="line">                // 5.根据响应结果执行不同的操作</div><div class="line">                if (xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300 || xhr.status == 304) &#123;</div><div class="line">                    var response = &apos;&apos;;</div><div class="line">                    // 判断接受数据的内容类型</div><div class="line">                    var type = xhr.getResponseHeader(&apos;Content-type&apos;);</div><div class="line">                    if(type.indexOf(&apos;xml&apos;) !== -1 &amp;&amp; xhr.responseXML) &#123;</div><div class="line">                        response = xhr.responseXML; //Document对象响应</div><div class="line">                    &#125; else if(type === &apos;application/json&apos;) &#123;</div><div class="line">//                            alert(&apos;json格式&apos;)</div><div class="line">                        response = JSON.parse(xhr.responseText); //JSON响应</div><div class="line">                    &#125; else &#123;</div><div class="line">                        response = xhr.responseText; //字符串响应</div><div class="line">                    &#125;</div><div class="line">                    //5-1响应成功</div><div class="line">                    params.success &amp;&amp; params.success(response);</div><div class="line">                &#125; else &#123;</div><div class="line">//                    alert(xhr.status);</div><div class="line">                    //5-2响应失败</div><div class="line">                    params.error &amp;&amp; params.error(xhr.status);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 6.解决跨域的问题 浏览器同源策略</div><div class="line">    function jsonp (params) &#123;</div><div class="line">        // a.将请求插入动态创建生成的script标签</div><div class="line">        var script = document.createElement(&apos;script&apos;);</div><div class="line">        var head = document.getElementsByTagName(&apos;head&apos;)[0];</div><div class="line">        head.appendChild(script);</div><div class="line">        // 设置传递给后台的回调参数名</div><div class="line">        var callbackName = params.jsonp;</div><div class="line">        params.data[&apos;callback&apos;] = callbackName; // ?callback=jsonpCallback</div><div class="line"></div><div class="line">        // b.创建回调</div><div class="line">        window[callbackName] = function (json) &#123;</div><div class="line">            head.removeChild(script);</div><div class="line">            clearTimeout(script.timer);</div><div class="line">            window[callbackName] = null;</div><div class="line">            params.success &amp;&amp; params.success(json);</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        // c.发送请求</div><div class="line">        script.src = params.url + &apos;?&apos; + params.data;</div><div class="line"></div><div class="line">        // d.设置超时处理,为了得知此次请求是否成功</div><div class="line">        if (params.time) &#123;</div><div class="line">            script.timer = setTimeout(function () &#123;</div><div class="line">                window[callbackName] = null;</div><div class="line">                head.removeChild(script);</div><div class="line">                params.error &amp;&amp; params.error(&#123;</div><div class="line">                    message: &apos;超时&apos;</div><div class="line">                &#125;);</div><div class="line">            &#125;, params.time);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 格式化参数</div><div class="line">    function formatParams (data) &#123;</div><div class="line">        var arr = [];</div><div class="line">        for (var name in data) &#123;</div><div class="line">           arr.push(encodeURIComponent(name) + &apos;=&apos; + encodeURIComponent(data[name]));</div><div class="line">        &#125;</div><div class="line">        // 添加一个随机数,防止缓存</div><div class="line">        arr.push(&apos;v=&apos; + random());</div><div class="line">        return arr.join(&apos;&amp;&apos;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 获取随机数</div><div class="line">    function random () &#123;</div><div class="line">        return Math.floor(Math.random() * 10000 + 500);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    // 给url添加参数.因为查询字符串每个参数的名称和值都必须</div><div class="line">    // 使用encodeURIComponent()进行编码才能放到URL的末尾</div><div class="line">    // 而且所有名-值对都必须有&amp;分隔</div><div class="line">    // xhr.open(&quot;get&quot;, &quot;example.php?name1=value1&amp;name2=value2&quot;, true);</div><div class="line">    function addURLParams (url, name, value) &#123;</div><div class="line">        url += (url.indexOf(&quot;?&quot;) == -1 ? &quot;?&quot; : &quot;&amp;&quot;);</div><div class="line">        url += encodeURIComponent(name) + &quot;=&quot; + encodeURIComponent(value);</div><div class="line">        return url;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;https://www.youtube.com/watch?v=Ucbp-Ej5RpI&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;1&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, Math.random(), &apos;1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;test.json&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;2&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, Math.random(), &apos;2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">ajax(&#123;</div><div class="line">    url: &apos;test.php&apos;,</div><div class="line">    jsonp: &apos;jsonCallback&apos;,</div><div class="line">    type: &apos;GET&apos;,</div><div class="line">    data: &#123;</div><div class="line">        &apos;b&apos;: &apos;异步请求&apos;</div><div class="line">    &#125;,</div><div class="line">    success: function (res) &#123;</div><div class="line">        console.log(res, &apos;2&apos;);</div><div class="line">    &#125;,</div><div class="line">    error: function (error) &#123;</div><div class="line">        console.log(error, Math.random(), &apos;2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/05/event/" rel="next" title="事件">
+                <i class="fa fa-chevron-left"></i> 事件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#手动编写一个ajax-不依赖第三方库-理解每一步"><span class="nav-number">1.</span> <span class="nav-text">手动编写一个ajax,不依赖第三方库 理解每一步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ajax请求"><span class="nav-number">1.1.</span> <span class="nav-text">ajax请求</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决跨域"><span class="nav-number">2.</span> <span class="nav-text">解决跨域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#跨域的几种实现方式（ajax不能跨域）"><span class="nav-number">2.1.</span> <span class="nav-text">跨域的几种实现方式（ajax不能跨域）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是跨域"><span class="nav-number">2.2.</span> <span class="nav-text">什么是跨域?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨域条件"><span class="nav-number">2.3.</span> <span class="nav-text">跨域条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jsonp实现原理"><span class="nav-number">2.4.</span> <span class="nav-text">jsonp实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#请求过程"><span class="nav-number">2.4.1.</span> <span class="nav-text">请求过程:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
