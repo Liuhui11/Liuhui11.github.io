@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="中文官方文档 cordova架构机制图：  构建一个ios App全局安装cordova 1npm install -g cordova 创建项目 12// 生成基于web应用程序的骨架，项目主页www/index.htmlcordova create MyApp 进入项目添加平台 12cd MyAppcordova platform add ios 运行App 1cordova run ios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cordova ios开发">
+<meta property="og:url" content="http://yoursite.com/2017/08/31/cordova-ios/index.html">
+<meta property="og:site_name" content="Hayley&#39;s Blog">
+<meta property="og:description" content="中文官方文档 cordova架构机制图：  构建一个ios App全局安装cordova 1npm install -g cordova 创建项目 12// 生成基于web应用程序的骨架，项目主页www/index.htmlcordova create MyApp 进入项目添加平台 12cd MyAppcordova platform add ios 运行App 1cordova run ios">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cordova.axuer.com/static/img/guide/cordovaapparchitecture.png">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEeba675f594aba7dece7a218d2ee77550/11477">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCE545112a7bdee410d6709abbc5322ca31/11447">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEf46182b0fa018685ba5b8a4dc6d377be/11450">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEdb845a8b68ab015d5f2de6433b4102cc/11457">
+<meta property="og:updated_time" content="2017-08-31T03:43:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cordova ios开发">
+<meta name="twitter:description" content="中文官方文档 cordova架构机制图：  构建一个ios App全局安装cordova 1npm install -g cordova 创建项目 12// 生成基于web应用程序的骨架，项目主页www/index.htmlcordova create MyApp 进入项目添加平台 12cd MyAppcordova platform add ios 运行App 1cordova run ios">
+<meta name="twitter:image" content="http://cordova.axuer.com/static/img/guide/cordovaapparchitecture.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/31/cordova-ios/"/>
+
+
+
+
+
+  <title>Cordova ios开发 | Hayley's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hayley's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/31/cordova-ios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hayley">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hayley's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Cordova ios开发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-31T11:21:23+08:00">
+                2017-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://cordova.axuer.com/" target="_blank" rel="external">中文官方文档</a></p>
+<p>cordova架构机制图：</p>
+<p><img src="http://cordova.axuer.com/static/img/guide/cordovaapparchitecture.png" alt="images"></p>
+<h2 id="构建一个ios-App"><a href="#构建一个ios-App" class="headerlink" title="构建一个ios App"></a>构建一个ios App</h2><p>全局安装cordova</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g cordova</div></pre></td></tr></table></figure>
+<p>创建项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 生成基于web应用程序的骨架，项目主页www/index.html</div><div class="line">cordova create MyApp</div></pre></td></tr></table></figure>
+<p>进入项目添加平台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd MyApp</div><div class="line">cordova platform add ios</div></pre></td></tr></table></figure>
+<p>运行App</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cordova run ios</div></pre></td></tr></table></figure>
+<h3 id="构建app"><a href="#构建app" class="headerlink" title="构建app"></a>构建app</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cordova build ios</div><div class="line">cordova requirements // 检测你是否满足构建平台的要求</div></pre></td></tr></table></figure>
+<h3 id="安装cocoapods"><a href="#安装cocoapods" class="headerlink" title="安装cocoapods"></a>安装cocoapods</h3><p>遇到各种问题，发现stackflow很管用</p>
+<p><a href="http://www.jianshu.com/p/1711e131987d" target="_blank" rel="external">http://www.jianshu.com/p/1711e131987d</a> 安装和使用教程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo gem install cocoapods -V // V可以查看下载的进程</div><div class="line">pod setup</div></pre></td></tr></table></figure></p>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>想把本地应用安装到我手机上，显示各种报错安装不了</p>
+<p><strong>mac系统版本10.11.6 Xcode 7.3.4 iphone7 10.3.2</strong></p>
+<p>首先要有ios开发者账号，找朋友要了一个按照他给的文档操作，先添加证书（前提是让他把我的手机Uuid让他添加到他的ios账号上去）</p>
+<p>然后还是不行，发现原来是xcode版本没有我手机真机调试包，最高才9.3的版本，于是又开始各种升级</p>
+<p>现在<strong>mac统版本10.12.5 xcode8.3.3 iphone7 10.3.2</strong>安装各种慢慢慢</p>
+<p>然后要在手机设置允许下载应用：设置-通用-描述文件与设备管理-允许</p>
+<p>添加真机调试包的地址：<br>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport**</p>
+<h3 id="打包运行app"><a href="#打包运行app" class="headerlink" title="打包运行app"></a>打包运行app</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm run build // 本地单页项目地址执行</div><div class="line">cordova run ios // 运行app指定平台</div></pre></td></tr></table></figure>
+<p>在xcode运行查看项目，需要ios开发者账号和证书</p>
+<h2 id="在真机上打包"><a href="#在真机上打包" class="headerlink" title="在真机上打包"></a>在真机上打包</h2><p><a href="http://www.cnblogs.com/czq1989/p/4919457.html" target="_blank" rel="external">http://www.cnblogs.com/czq1989/p/4919457.html</a> app打包流程</p>
+<p>打包：将应用程序统一放在一个后缀是ipa的文件中，然后发给其他人，可以安装在手机上供用户或测试人员安装</p>
+<p>可安装ipa的前提：</p>
+<ul>
+<li>说清楚是哪一个应用程序（App Id）</li>
+<li>可以安装在哪一台设备上（UDID）</li>
+</ul>
+<p>打包过程：</p>
+<ol>
+<li>在本地生成csr文件</li>
+<li>进入开发者中心 apple developer</li>
+<li>选择Ad Hoc生成一个iOS_distribution.cer证书，此证书是为了限定哪台电脑可以打包生成ipa</li>
+<li>新建一个App Id，此ID用于限定要打包的应用程序的Bundle Id是什么，这次不能写*这样的范围匹配，必须写一个准确的App Id</li>
+<li>注册要安装ipa文件的设备的UDID</li>
+<li>选择Ad Hoc，利用iOS_distribution.cer文件 + 设备UDID + App Id生成一个provision文件</li>
+<li>将证书安装到电脑上</li>
+<li>保证xcode的配置一致</li>
+<li>将ipa拷贝给要安装的人，此人打开iTunes，点击应用程序，再双击ipa，点击安装，点击同步即可</li>
+</ol>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><h4 id="相关证书和配置文件说明："><a href="#相关证书和配置文件说明：" class="headerlink" title="相关证书和配置文件说明："></a>相关证书和配置文件说明：</h4><p><a href="http://www.cocoachina.com/ios/20160104/14859.html" target="_blank" rel="external">理清各种证书的关系和原理</a></p>
+<p><img src="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEeba675f594aba7dece7a218d2ee77550/11477" alt="image"></p>
+<h4 id="将手机连接mac电脑在自己手机上打包测试"><a href="#将手机连接mac电脑在自己手机上打包测试" class="headerlink" title="将手机连接mac电脑在自己手机上打包测试"></a>将手机连接mac电脑在自己手机上打包测试</h4><ul>
+<li>方法1: 直接通过绑定开发者账号</li>
+</ul>
+<p><img src="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCE545112a7bdee410d6709abbc5322ca31/11447" alt="image"></p>
+<ul>
+<li>方法2:通过开发者账号配置的配置文件带有后缀provision</li>
+</ul>
+<p><img src="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEf46182b0fa018685ba5b8a4dc6d377be/11450" alt="images"></p>
+<p><img src="http://note.youdao.com/yws/public/resource/91a7a76c69320c69abf977223850fe69/xmlnote/WEBRESOURCEdb845a8b68ab015d5f2de6433b4102cc/11457" alt="images"></p>
+<p>操作：</p>
+<ul>
+<li>点击证书，输入p12密码文件中的密码</li>
+<li>根据截图填写相关信息</li>
+<li>导入配置文件</li>
+</ul>
+<h2 id="打包上线到appstore"><a href="#打包上线到appstore" class="headerlink" title="打包上线到appstore"></a>打包上线到appstore</h2><p>上线流程：</p>
+<ol>
+<li>创建App IDs和Boudle ID</li>
+<li>创建发布证书（若已创建过发布证书，现在用的是p12文件，可直接跳到第21步）</li>
+<li>创建本地证书</li>
+<li>创建Provisiong Profiles文件 （测试：在xcode中要添加的证书文件，包括允许访问的设备；发布：选择app store ）</li>
+<li>在app store开辟空间 iTunes Connect</li>
+<li>在Xcode中打包工程</li>
+</ol>
+<p><a href="http://www.jianshu.com/p/06c3c1b0bf9b" target="_blank" rel="external">http://www.jianshu.com/p/06c3c1b0bf9b</a> ios app上线流程详解</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/15/js-ajax/" rel="next" title="Ajax">
+                <i class="fa fa-chevron-left"></i> Ajax
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Hayley" />
+          <p class="site-author-name" itemprop="name">Hayley</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建一个ios-App"><span class="nav-number">1.</span> <span class="nav-text">构建一个ios App</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建app"><span class="nav-number">1.1.</span> <span class="nav-text">构建app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装cocoapods"><span class="nav-number">1.2.</span> <span class="nav-text">安装cocoapods</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到问题"><span class="nav-number">2.</span> <span class="nav-text">遇到问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打包运行app"><span class="nav-number">2.1.</span> <span class="nav-text">打包运行app</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在真机上打包"><span class="nav-number">3.</span> <span class="nav-text">在真机上打包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补充"><span class="nav-number">3.1.</span> <span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关证书和配置文件说明："><span class="nav-number">3.1.1.</span> <span class="nav-text">相关证书和配置文件说明：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将手机连接mac电脑在自己手机上打包测试"><span class="nav-number">3.1.2.</span> <span class="nav-text">将手机连接mac电脑在自己手机上打包测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包上线到appstore"><span class="nav-number">4.</span> <span class="nav-text">打包上线到appstore</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hayley</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
