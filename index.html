@@ -279,6 +279,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/24/deep-copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hayley">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hayley's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/24/deep-copy/" itemprop="url">js中的浅拷贝和深拷贝</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-24T00:18:23+08:00">
+                2017-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>举个例子来说明一下什么是浅拷贝什么是深拷贝</p>
+<h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var x = &#123;</div><div class="line">    a: 1,</div><div class="line">    b: &#123;f: &#123;</div><div class="line">        g: 1</div><div class="line">    &#125;&#125;,</div><div class="line">    c: [1, 2, 3]</div><div class="line">&#125;;</div><div class="line">var y = shallow(x);</div></pre></td></tr></table></figure>
+<p>得出的结果可以看出是浅拷贝</p>
+<ul>
+<li>非对象的属性值一个改变不影响另一个的值</li>
+<li>对象属性是引用赋值所以一个改变会影响另一个的改变</li>
+</ul>
+<p>出现这种情况的本质是：对象是按引用赋值的<br><img src="http://note.youdao.com/yws/public/resource/6488981a2c836f0072e7501b62423505/xmlnote/8FE876EF30C44ECD9DEB4CC5EDD46ABC/12684" alt="image"></p>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><p>指的是拷贝一个对象，改变一个值不影响另一个的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">// 实现深复制功能</div><div class="line">// 判断：1.是否是对象 2.是否是函数</div><div class="line">function deepCopy (obj, isDeep) &#123;</div><div class="line">    if (!_.isObject(obj)) &#123;</div><div class="line">        return obj</div><div class="line">    &#125; else &#123;</div><div class="line">        if (_.isFunction(obj)) &#123;</div><div class="line">            return new Function(&quot;return &quot; + obj.toString())();</div><div class="line">        &#125; else &#123;</div><div class="line">            var name,</div><div class="line">                target = _.isArray(obj) ? [] : &#123;&#125;,</div><div class="line">                value;</div><div class="line">            for (name in obj) &#123;</div><div class="line">                value = obj[name];</div><div class="line"></div><div class="line">                // 是浅拷贝还是深拷贝</div><div class="line">                if (isDeep &amp;&amp; (_.isArray(value) || _.isObject(value))) &#123;</div><div class="line">                    console.log(&apos;深拷贝&apos;);</div><div class="line">                    target[name] = deepCopy(value, isDeep);</div><div class="line">                &#125; else &#123;</div><div class="line">                    console.log(&apos;浅拷贝&apos;);</div><div class="line">                    target[name] = value</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            return target;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var array3 = &#123;</div><div class="line">    a: 1,</div><div class="line">    b: &#123;f: &#123;</div><div class="line">        g: 1</div><div class="line">    &#125;&#125;,</div><div class="line">    c: function () &#123;</div><div class="line">        console.log(&apos;is function&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">var array4 = deepCopy(array3, false);</div></pre></td></tr></table></figure>
+<p><img src="http://note.youdao.com/yws/public/resource/6488981a2c836f0072e7501b62423505/xmlnote/2708341734564BED96D4535FD85942E6/12697" alt="image"></p>
+<h3 id="一个技巧"><a href="#一个技巧" class="headerlink" title="一个技巧"></a>一个技巧</h3><p>使用JSON对象的parse()和stringify()方法</p>
+<ul>
+<li>pares() JSON字符串转成js对象</li>
+<li>stringify() 将js对象转成JSON字符串<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//例1</div><div class="line">var source = &#123; name:&quot;source&quot;, child:&#123; name:&quot;child&quot; &#125; &#125; </div><div class="line">var target = JSON.parse(JSON.stringify(source));</div><div class="line">target.name = &quot;target&quot;;  //改变target的name属性</div><div class="line">console.log(source.name); //source </div><div class="line">console.log(target.name); //target</div><div class="line"></div><div class="line">//例2</div><div class="line">var source = &#123; name:function()&#123;console.log(1);&#125;, child:&#123; name:&quot;child&quot; &#125; &#125; </div><div class="line">var target = JSON.parse(JSON.stringify(source));</div><div class="line">console.log(target.name); //undefined</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这种方法有局限性：</p>
+<ul>
+<li>对于正则表达式类型、函数类型等无法进行深拷贝(而且会直接丢失相应的值)</li>
+<li>它会抛弃对象的constructor，不管这个对象原来的构造函数是什么，在深拷贝之后都会变成Object</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://lodashjs.com/docs/#_isarrayvalue" target="_blank" rel="external">lodash一些功能函数的使用</a></li>
+<li><a href="https://github.com/wengjq/Blog/issues/3" target="_blank" rel="external">github js中浅拷贝和深拷贝的实现</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/31/cordova-ios/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1631,146 +1776,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/variable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hayley">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hayley's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/20/variable/" itemprop="url">JS变量</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T21:53:25+08:00">
-                2017-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="思考几个问题"><a href="#思考几个问题" class="headerlink" title="思考几个问题"></a>思考几个问题</h2><h3 id="一、js中使用typeof能得到的哪些类型"><a href="#一、js中使用typeof能得到的哪些类型" class="headerlink" title="一、js中使用typeof能得到的哪些类型"></a>一、js中使用typeof能得到的哪些类型</h3><p>知识点：js数据类型</p>
-<p>js有六种数据类型:</p>
-<ul>
-<li>String</li>
-<li>Number </li>
-<li>Boolean </li>
-<li>Object 包括Array和Function</li>
-<li>Undefined </li>
-<li>Null</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typeof undefined // undefined</div><div class="line">typeof &apos;abc&apos; // string</div><div class="line">typeof 123 // number</div><div class="line">typeof true // boolean</div><div class="line">typeof &#123;&#125; // object</div><div class="line">typeof [] // object</div><div class="line">typeof null // object</div><div class="line">typeof function () &#123;&#125; // function</div></pre></td></tr></table></figure>
-<p><a href="http://note.youdao.com/noteshare?id=121b9fc09ddc2617d25fc479e3cb25cc" target="_blank" rel="external">undefined和null的区别</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">undefined没有定义变量，没有值</div><div class="line">null定义了没有值</div><div class="line">undefined == null</div><div class="line"></div><div class="line">v</div><div class="line">// ReferenceError: v is not defined</div><div class="line"></div><div class="line">typeof v</div><div class="line">// &quot;undefined&quot;</div><div class="line"></div><div class="line">// 实际编程中，这个特点通常用在判断语句</div><div class="line">// 错误的写法</div><div class="line">if (v) &#123;</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line">// ReferenceError: v is not defined</div><div class="line"></div><div class="line">// 正确的写法</div><div class="line">if (typeof v === &quot;undefined&quot;) &#123;</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">Number(null) // 0</div><div class="line">5 + null // 5</div><div class="line"></div><div class="line">Number(undefined) // NaN</div><div class="line">5 + undefined // NaN</div></pre></td></tr></table></figure>
-<h3 id="二、何时使用-何时使用"><a href="#二、何时使用-何时使用" class="headerlink" title="二、何时使用=== 何时使用=="></a>二、何时使用=== 何时使用==</h3><p>知识点：强制类型转换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 其他地方都用===，除此之外</div><div class="line">if (obj.a == null) &#123; // 判断某个属性是否有值</div><div class="line">    // 这里相当于 obj.a === null || obj.a === undefiend 简写形式</div><div class="line">    // 这是jquery源码推荐的写法</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="三、js中有哪些内置函数"><a href="#三、js中有哪些内置函数" class="headerlink" title="三、js中有哪些内置函数"></a>三、js中有哪些内置函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 内置函数</div><div class="line">Object</div><div class="line">Array</div><div class="line">Boolean</div><div class="line">Number</div><div class="line">String</div><div class="line">Function</div><div class="line">Date</div><div class="line">RegExp</div><div class="line">Error</div><div class="line"></div><div class="line">// 内置对象</div><div class="line">JSON</div><div class="line">Math</div></pre></td></tr></table></figure>
-<h3 id="四、js变量按照存储方式区分为哪些类型，并描述其特点"><a href="#四、js变量按照存储方式区分为哪些类型，并描述其特点" class="headerlink" title="四、js变量按照存储方式区分为哪些类型，并描述其特点"></a>四、js变量按照存储方式区分为哪些类型，并描述其特点</h3><p>知识点：数据存储方式</p>
-<h3 id="五、如何理解JSON"><a href="#五、如何理解JSON" class="headerlink" title="五、如何理解JSON"></a>五、如何理解JSON</h3><p>JSON只不过是一个JS对象而已（有两个API），也是一种数据格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">JSON.stringify(&#123;a: 10, b: 20&#125;) // 将js对象转换成字符串 &quot;&#123;&quot;a&quot;:10,&quot;b&quot;:20&#125;&quot;</div><div class="line">JSON.parse(&apos;&#123;&quot;a&quot;: 10, &quot;b&quot;: 20&#125;&apos;) // 将字符串转换成js对象 &#123;&quot;a&quot;:10,&quot;b&quot;:20&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1814,7 +1826,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
