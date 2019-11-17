@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="工具," />
 
 
 
@@ -94,14 +94,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="如何创建自己的脚手架详细教程 12345678910111213141516总结：1. 相关写命令的插件2. 如何写命令 (bin使用)3. 创建自己的项目模板（参考vue-template-webpack）4. 思考工作中有哪些重复的操作可以写一个脚手架或者命令来完成？5. npm发布脚本#!/usr/bin/env bashnpm config get registry # 检查仓库镜像库np">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="创建一个自己的脚手架">
+<meta property="og:url" content="http://yoursite.com/2019/11/17/create-cli/index.html">
 <meta property="og:site_name" content="Hayley&#39;s Blog">
+<meta property="og:description" content="如何创建自己的脚手架详细教程 12345678910111213141516总结：1. 相关写命令的插件2. 如何写命令 (bin使用)3. 创建自己的项目模板（参考vue-template-webpack）4. 思考工作中有哪些重复的操作可以写一个脚手架或者命令来完成？5. npm发布脚本#!/usr/bin/env bashnpm config get registry # 检查仓库镜像库np">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-30T16:10:27.000Z">
+<meta property="og:updated_time" content="2019-11-17T07:26:38.192Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="创建一个自己的脚手架">
+<meta name="twitter:description" content="如何创建自己的脚手架详细教程 12345678910111213141516总结：1. 相关写命令的插件2. 如何写命令 (bin使用)3. 创建自己的项目模板（参考vue-template-webpack）4. 思考工作中有哪些重复的操作可以写一个脚手架或者命令来完成？5. npm发布脚本#!/usr/bin/env bashnpm config get registry # 检查仓库镜像库np">
 
 
 
@@ -130,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/11/17/create-cli/"/>
 
 
 
 
 
-  <title>tags | Hayley's Blog</title>
+  <title>创建一个自己的脚手架 | Hayley's Blog</title>
   
 
 
@@ -267,40 +271,145 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/17/create-cli/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hayley">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hayley's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 4 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/js功能函数/" style="font-size: 21px; color: #6f6f6f">js功能函数</a> <a href="/tags/js基础/" style="font-size: 30px; color: #111">js基础</a> <a href="/tags/js应用/" style="font-size: 12px; color: #ccc">js应用</a> <a href="/tags/工具/" style="font-size: 21px; color: #6f6f6f">工具</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">创建一个自己的脚手架</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-17T15:18:52+08:00">
+                2019-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p><a href="https://juejin.im/post/5c94fef7f265da60fd0c15e8" target="_blank" rel="external">如何创建自己的脚手架详细教程</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">总结：</div><div class="line"><span class="number">1.</span> 相关写命令的插件</div><div class="line"><span class="number">2.</span> 如何写命令 (bin使用)</div><div class="line"><span class="number">3.</span> 创建自己的项目模板（参考vue-template-webpack）</div><div class="line"><span class="number">4.</span> 思考工作中有哪些重复的操作可以写一个脚手架或者命令来完成？</div><div class="line"><span class="number">5.</span> npm发布脚本</div><div class="line"><span class="meta">#!/usr/bin/env bash</span></div><div class="line">npm config get registry # 检查仓库镜像库</div><div class="line">npm config set registry=http:<span class="comment">//registry.npmjs.org</span></div><div class="line">echo <span class="string">'请进行登录相关操作：'</span></div><div class="line">npm login # 登陆</div><div class="line">echo <span class="string">"-------publishing-------"</span></div><div class="line">npm publish # 发布</div><div class="line">npm config set registry=https:<span class="comment">//registry.npm.taobao.org # 设置为淘宝镜像</span></div><div class="line">echo <span class="string">"发布完成"</span></div><div class="line">exit</div></pre></td></tr></table></figure>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/05/vuex/" rel="next" title="vuex">
+                <i class="fa fa-chevron-left"></i> vuex
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -516,10 +625,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
