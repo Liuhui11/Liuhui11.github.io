@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工程化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="项目github地址 从0配置项目 安装webpack ==推荐局部安装==  12345678910# node版本v10.16.0# 安装最新的稳定版本 npm i -D webpack# 安装指定版本npm i -D webpack@&amp;lt;version&amp;gt;# 安装最新的体验版本 可能包含bug,不不要⽤用于⽣生产环境npm i -D webpack@beta# 安装webpack V">
+<meta name="keywords" content="工程化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack">
+<meta property="og:url" content="http://yoursite.com/2019/12/25/webpack/index.html">
+<meta property="og:site_name" content="Hayley&#39;s Blog">
+<meta property="og:description" content="项目github地址 从0配置项目 安装webpack ==推荐局部安装==  12345678910# node版本v10.16.0# 安装最新的稳定版本 npm i -D webpack# 安装指定版本npm i -D webpack@&amp;lt;version&amp;gt;# 安装最新的体验版本 可能包含bug,不不要⽤用于⽣生产环境npm i -D webpack@beta# 安装webpack V">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-25T06:10:18.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack">
+<meta name="twitter:description" content="项目github地址 从0配置项目 安装webpack ==推荐局部安装==  12345678910# node版本v10.16.0# 安装最新的稳定版本 npm i -D webpack# 安装指定版本npm i -D webpack@&amp;lt;version&amp;gt;# 安装最新的体验版本 可能包含bug,不不要⽤用于⽣生产环境npm i -D webpack@beta# 安装webpack V">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/25/webpack/"/>
+
+
+
+
+
+  <title>webpack | Hayley's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hayley's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/25/webpack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hayley">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hayley's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-25T14:18:52+08:00">
+                2019-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://github.com/Liuhui11/homework/tree/master/webpack-learn" target="_blank" rel="external">项目github地址</a></p>
+<h2 id="从0配置项目"><a href="#从0配置项目" class="headerlink" title="从0配置项目"></a>从0配置项目</h2><ul>
+<li>安装webpack ==推荐局部安装==</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># node版本</div><div class="line">v10<span class="number">.16</span><span class="number">.0</span></div><div class="line"># 安装最新的稳定版本 </div><div class="line">npm i -D webpack</div><div class="line"># 安装指定版本</div><div class="line">npm i -D webpack@&lt;version&gt;</div><div class="line"># 安装最新的体验版本 可能包含bug,不不要⽤用于⽣生产环境</div><div class="line">npm i -D webpack@beta</div><div class="line"># 安装webpack V4+版本时，需要额外安装webpack-cli </div><div class="line">npm i -D webpack-cli</div></pre></td></tr></table></figure>
+<ul>
+<li>检查安装</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">webpack -v  <span class="comment">//command not found 默认在全局环境中查找</span></div><div class="line"># 安装npx</div><div class="line">npm install -g npx</div><div class="line">npx webpack -v  <span class="comment">//npx帮助我们在项⽬目中的node_modules⾥里里查找webpack </span></div><div class="line">./node_modules/.bin/webpack -v <span class="comment">//到当前的node_modules模块⾥里里指定 webpack</span></div></pre></td></tr></table></figure>
+<ul>
+<li>启动构建</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># npx方式</div><div class="line">npx webpack</div><div class="line"># npm script</div><div class="line">npm run test</div><div class="line"># 修改package.json</div><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">  <span class="string">"test"</span>: <span class="string">"webpack"</span> <span class="comment">// 原理理就是通过shell脚本在node_modules/.bin⽬目录下创建⼀一个软链接。</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>entry 入口</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//单⼊入⼝口 SPA，本质是个字符串串 </span></div><div class="line">entry:&#123;</div><div class="line">  main: <span class="string">'./src/index.js'</span></div><div class="line">&#125;</div><div class="line">==相当于简写=== entry:<span class="string">"./src/index.js"</span></div><div class="line"><span class="comment">// 一个出口，从右至左合并</span></div><div class="line">entry: [<span class="string">"./src/index.js"</span>, <span class="string">"./src/login.js"</span>] </div><div class="line"><span class="comment">//多⼊入⼝口 entry是个对象 </span></div><div class="line">entry:&#123;</div><div class="line">  index: <span class="string">"./src/index.js"</span>,</div><div class="line">  login: <span class="string">"./src/login.js"</span></div><div class="line">&#125;</div><div class="line"><span class="string">``</span><span class="string">`js</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">- output 出口</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">`</span><span class="string">``</span>js</div><div class="line">output: &#123;</div><div class="line">  filename: <span class="string">"bundle.js"</span>, <span class="comment">//输出⽂文件的名称</span></div><div class="line">  path: path.resolve(__dirname,<span class="string">"dist"</span>) <span class="comment">//输出⽂文件到磁盘的⽬目录，必须是绝对路路径</span></div><div class="line">&#125;,</div><div class="line"></div><div class="line"><span class="comment">//多⼊入⼝口的处理理 </span></div><div class="line">output: &#123;</div><div class="line">  filename: <span class="string">"[name][chunkhash:8].js"</span>, <span class="comment">//利利⽤用占位符，⽂件名称不会要重复</span></div><div class="line">  path: path.resolve(__dirname,<span class="string">"dist"</span>) <span class="comment">//输出⽂文件到磁盘的⽬目录，必 须是绝对路路径</span></div><div class="line">&#125;,</div><div class="line"># 模式</div><div class="line">hash <span class="comment">//改变每个bundle文件的hash值</span></div><div class="line">chunkhash <span class="comment">//只改变修改了代码对应文件的hash值</span></div><div class="line">contenthash <span class="comment">//改变js中引入css代码，只改变css的hash值</span></div></pre></td></tr></table></figure>
+<ul>
+<li>mode 打包模式<ul>
+<li>production</li>
+<li>development</li>
+<li>none</li>
+</ul>
+</li>
+</ul>
+<h3 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h3><ul>
+<li>css处理</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用dart-sass 跨平台</span></div><div class="line">npm style-loader css-loader sass-loader sass -D</div><div class="line"></div><div class="line"><span class="comment">// 修改loader配置</span></div><div class="line">&#123;</div><div class="line">    test: <span class="regexp">/\.(sass|scss)/</span>,</div><div class="line">    use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>, &#123;</div><div class="line">        loader: <span class="string">'sass-loader'</span>,</div><div class="line">        options: &#123;</div><div class="line">            implementation: <span class="built_in">require</span>(<span class="string">'sass'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>文件处理</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 安装</span></div><div class="line">npm i file-loader -D</div><div class="line"><span class="comment">// 修改配置</span></div><div class="line">&#123;</div><div class="line">    test: <span class="regexp">/\.(png|jpg|jpeg|gif)$/</span>,</div><div class="line">    use: [</div><div class="line">        &#123;</div><div class="line">            loader: <span class="string">'file-loader'</span>,</div><div class="line">            options: &#123;</div><div class="line">                name: <span class="string">'[name].[ext]'</span>,</div><div class="line">                outputPath: <span class="string">'images/'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">npm i html-webpack-plugin clean-webpack-plugin -D</div><div class="line"></div><div class="line">plugins: [</div><div class="line">    <span class="keyword">new</span> htmlWebpackPlugin(&#123;</div><div class="line">        title: <span class="string">'test page'</span>,</div><div class="line">        filename: <span class="string">'test.html'</span>,</div><div class="line">        template: <span class="string">'index.html'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin()</div><div class="line">]</div></pre></td></tr></table></figure>
+<h3 id="sourceMap"><a href="#sourceMap" class="headerlink" title="sourceMap"></a>sourceMap</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通过devtool选项控制是否以及如何生成source map</span></div><div class="line">devtool: <span class="string">'source-map'</span>,</div></pre></td></tr></table></figure>
+<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><h3 id="自定义脚本"><a href="#自定义脚本" class="headerlink" title="自定义脚本"></a>自定义脚本</h3><p>每当执行npm run，就会自动新建一个shell，在这个shell里面执行指定的脚本命令，会将当前目录的node_modules/.bin子目录加入PATH变量，所以.bin子目录里面所有脚本可以不加路径直接调用</p>
+<h3 id="脚本执行顺序"><a href="#脚本执行顺序" class="headerlink" title="脚本执行顺序"></a>脚本执行顺序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 并行执行(即同时的平⾏行行执⾏行行)，可以使⽤用 &amp; 符号</span></div><div class="line">$ npm run script1.js &amp; npm run script2.js</div><div class="line"><span class="comment">// 继发执⾏行行(即只有前⼀一个任务成功，才执⾏行行下⼀一个任务)，可以使⽤用 &amp;&amp; 符号</span></div><div class="line">$ npm run script1.js &amp;&amp; npm run script2.js</div></pre></td></tr></table></figure>
+<h3 id="常用脚本命令"><a href="#常用脚本命令" class="headerlink" title="常用脚本命令"></a>常用脚本命令</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 删除⽬目录</span></div><div class="line"><span class="string">"clean"</span>: <span class="string">"rimraf dist/*"</span>,</div><div class="line"><span class="comment">// 本地搭建⼀一个 HTTP 服务</span></div><div class="line"><span class="string">"serve"</span>: <span class="string">"http-server -p 9090 dist/"</span>,</div><div class="line"><span class="comment">// 打开浏览器器</span></div><div class="line"><span class="string">"open:dev"</span>: <span class="string">"opener http://localhost:9090"</span>,</div><div class="line"><span class="comment">// 实时刷新</span></div><div class="line"><span class="string">"livereload"</span>: <span class="string">"live-reload --port 9091 dist/"</span>,</div><div class="line"><span class="comment">// 构建 HTML ⽂文件</span></div><div class="line"><span class="string">"build:html"</span>: <span class="string">"jade index.jade &gt; dist/index.html"</span>,</div><div class="line"><span class="comment">// 只要 CSS ⽂文件有变动，就重新执⾏行行构建</span></div><div class="line"><span class="string">"watch:css"</span>: <span class="string">"watch 'npm run build:css' assets/styles/"</span>, </div><div class="line"><span class="comment">// 只要 HTML ⽂文件有变动，就重新执⾏行行构建</span></div><div class="line"><span class="string">"watch:html"</span>: <span class="string">"watch 'npm run build:html' assets/html"</span>, </div><div class="line"><span class="comment">// 构建 favicon</span></div><div class="line"><span class="string">"build:favicon"</span>: <span class="string">"node scripts/favicon.js"</span>,</div></pre></td></tr></table></figure>
+<h3 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bin"</span>: &#123;</div><div class="line">        <span class="string">"test"</span>: <span class="string">"./index.js"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">## index.js</div><div class="line">    #!<span class="regexp">/usr/</span>bin/env node <span class="comment">// 文件头部必须要有此行</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'执行成功'</span>) <span class="comment">// 执行test会打印“执行成功”</span></div></pre></td></tr></table></figure>
+<h2 id="打包优化"><a href="#打包优化" class="headerlink" title="打包优化"></a>打包优化</h2><h3 id="webpackDevServer"><a href="#webpackDevServer" class="headerlink" title="webpackDevServer"></a>webpackDevServer</h3><h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><h3 id="热更新替换HRM"><a href="#热更新替换HRM" class="headerlink" title="热更新替换HRM"></a>热更新替换HRM</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">    contentBase: './dist',</div><div class="line">    port: 8080,</div><div class="line">    hot: true, // 开启热更新，css代码修改浏览器不刷新页面更新</div><div class="line">    hotOnly: true // 热更新浏览器也不刷新页面</div><div class="line">&#125;,</div><div class="line"></div><div class="line"># 处理js模块HMR</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="Babel处理ES6"><a href="#Babel处理ES6" class="headerlink" title="Babel处理ES6"></a>Babel处理ES6</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 安装babel依赖包</span></div><div class="line">npm install -D babel-loader @babel/core @babel/preset-env</div><div class="line">&#123;</div><div class="line">    test: <span class="regexp">/\.js$/</span>,</div><div class="line">    exclude: <span class="regexp">/node_modules/</span>,</div><div class="line">    use: &#123;</div><div class="line">        loader: <span class="string">'babel-loader'</span>,</div><div class="line">        options: &#123;</div><div class="line">            presents: [<span class="string">'@babel/present-env'</span>,</div><div class="line">                &#123;</div><div class="line">                    targets: &#123;</div><div class="line">                        edge: <span class="string">"17"</span>,</div><div class="line">                        firefox: <span class="string">"60"</span>,</div><div class="line">                        chrome: <span class="string">"67"</span>,</div><div class="line">                        safari: <span class="string">"11.1"</span></div><div class="line">                    &#125;,</div><div class="line">                    corejs: <span class="number">2</span>, <span class="comment">//新版本需要指定核⼼心库版本</span></div><div class="line">                    useBuiltIns: <span class="string">"usage"</span> <span class="comment">//按需注⼊!!!</span></div><div class="line">                &#125;</div><div class="line">            ],</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 开发工具库、组件库场景时，把es的新特性都装进来，弥补低版本浏览器的兼容问题</span></div><div class="line">npm install --save-dev @babel/plugin-transform-runtime</div><div class="line">npm install --save @babel/runtime</div><div class="line">&#123;</div><div class="line">    test: <span class="regexp">/\.js$/</span>,</div><div class="line">    exclude: <span class="regexp">/node_modules/</span>,</div><div class="line">    use: &#123;</div><div class="line">        loader: <span class="string">'babel-loader'</span>,</div><div class="line">        options: &#123;</div><div class="line">            <span class="comment">// presents: ['@babel/present-env'],</span></div><div class="line">            plugins: [<span class="string">'@babel/plugin-transform-runtime'</span>,</div><div class="line">                &#123;</div><div class="line">                    <span class="string">"absoluteRuntime"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="string">"corejs"</span>: <span class="literal">false</span>,</div><div class="line">                    <span class="string">"helpers"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="string">"regenerator"</span>: <span class="literal">true</span>,</div><div class="line">                    <span class="string">"useESModules"</span>: <span class="literal">false</span></div><div class="line">                &#125;</div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="代码分割"><a href="#代码分割" class="headerlink" title="代码分割"></a>代码分割</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// https://webpack.js.org/plugins/split-chunks-plugin/</span></div><div class="line">optimization: &#123;</div><div class="line">    splitChunks: &#123;</div><div class="line">        chunks: <span class="string">"all"</span>, <span class="comment">// 所有的chunks代码公共的部分分离出来成为⼀一个 单独的⽂文件</span></div><div class="line">    &#125;,</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h3 id="执行并发任务happypack"><a href="#执行并发任务happypack" class="headerlink" title="执行并发任务happypack"></a>执行并发任务happypack</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 运行在node之上的webpack是单线程模型的，happypack可以使webapck执行多任务</span></div></pre></td></tr></table></figure>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tree shaking 移除javascript上下文中未引用代码</div><div class="line">HRM 模块热替换</div><div class="line">模块解析 https:<span class="comment">//webpack.docschina.org/concepts/module-resolution/</span></div></pre></td></tr></table></figure>
+<h2 id="创造"><a href="#创造" class="headerlink" title="创造"></a>创造</h2><h3 id="如何自己编写一个Plugin"><a href="#如何自己编写一个Plugin" class="headerlink" title="如何自己编写一个Plugin"></a>如何自己编写一个Plugin</h3><p><a href="https://webpack.js.org/contribute/writing-a-plugin/" target="_blank" rel="external">https://webpack.js.org/contribute/writing-a-plugin/</a></p>
+<h3 id="如何自己编写一个Loader"><a href="#如何自己编写一个Loader" class="headerlink" title="如何自己编写一个Loader"></a>如何自己编写一个Loader</h3><p>插件向第三方开发者提供了webpack引擎中完整的能力</p>
+<ul>
+<li><a href="https://webpack.js.org/contribute/writing-a-loader/" target="_blank" rel="external">https://webpack.js.org/contribute/writing-a-loader/</a></li>
+<li><a href="https://webpack.js.org/api/compiler-hooks/" target="_blank" rel="external">https://webpack.js.org/api/compiler-hooks/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工程化/" rel="tag"># 工程化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/17/create-cli/" rel="next" title="创建一个自己的脚手架">
+                <i class="fa fa-chevron-left"></i> 创建一个自己的脚手架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Hayley" />
+          <p class="site-author-name" itemprop="name">Hayley</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从0配置项目"><span class="nav-number">1.</span> <span class="nav-text">从0配置项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">1.1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loader"><span class="nav-number">1.2.</span> <span class="nav-text">loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plugin"><span class="nav-number">1.3.</span> <span class="nav-text">plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sourceMap"><span class="nav-number">1.4.</span> <span class="nav-text">sourceMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#package-json"><span class="nav-number">2.</span> <span class="nav-text">package.json</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义脚本"><span class="nav-number">2.1.</span> <span class="nav-text">自定义脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本执行顺序"><span class="nav-number">2.2.</span> <span class="nav-text">脚本执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用脚本命令"><span class="nav-number">2.3.</span> <span class="nav-text">常用脚本命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bin"><span class="nav-number">2.4.</span> <span class="nav-text">bin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包优化"><span class="nav-number">3.</span> <span class="nav-text">打包优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webpackDevServer"><span class="nav-number">3.1.</span> <span class="nav-text">webpackDevServer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨域"><span class="nav-number">3.2.</span> <span class="nav-text">跨域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#热更新替换HRM"><span class="nav-number">3.3.</span> <span class="nav-text">热更新替换HRM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Babel处理ES6"><span class="nav-number">3.4.</span> <span class="nav-text">Babel处理ES6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码分割"><span class="nav-number">3.5.</span> <span class="nav-text">代码分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行并发任务happypack"><span class="nav-number">3.6.</span> <span class="nav-text">执行并发任务happypack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">3.7.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创造"><span class="nav-number">4.</span> <span class="nav-text">创造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自己编写一个Plugin"><span class="nav-number">4.1.</span> <span class="nav-text">如何自己编写一个Plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自己编写一个Loader"><span class="nav-number">4.2.</span> <span class="nav-text">如何自己编写一个Loader</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hayley</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
